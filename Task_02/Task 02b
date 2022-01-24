@@ -1,0 +1,85 @@
+setwd('C:\\Users\\sians\\OneDrive\\Desktop\\Evolution\\Tasks\\Task_02')
+getwd()
+Data <- read.csv('http://jonsmitchell.com/data/beren.csv', stringsAsFactors=F)
+write.csv(Data, 'rawdata.csv', quote=F)
+length(Data)
+nrow(Data)
+ncol(Data)
+colnames(Data)
+head(Data)
+Data[1,]
+Data[2,]
+Data[1:3,]
+Data[1:3, 4]
+Data[1:5, 1:3]
+Feeds <- which(Data[,9] == 'bottle')
+berenMilk <- Data[Feeds,]
+head(berenMilk)
+Feeds <- which(Data[,'event'] == 'bottle')
+Feeds <- which(Data$event == 'bottle')
+dayID <- apply(Data, 1, function(x) paste(x[1:3], collapse='-'))
+dayID <- sapply(dayID, as.Date, format = "%Y-%m-%d", origin = "2019-04-18")
+dateID <- sapply(dayID, as.Date, format = "%Y-%m-%d", origin = "2019-04-18")
+Data$age <- dateID - dateID[which(Data$event == 'birth')]
+beren2 <- Data
+beren3 <- beren2[order(beren2$age),]
+write.csv(beren3, 'beren_new.csv', quote=F, row.names=FALSE)
+Feeds <- which(beren3$event == "bottle")
+#Question 1- The first hypothesis is inappropriate because the columns don't say how much Beren eats. The second hypothesis is inappropriate because it doesn't specify the type of relationship the two have, is it positive or negative? 
+avgMilk <- mean(beren3$value[Feeds])
+#
+#Beren avgMilk units are in 'oz'
+#This tells us how many oz of milk is being fed
+#This tells us the vector we're working in 
+avgFeed <- tapply(beren3$value[Feeds], beren3$age[Feeds], mean)
+varFeed <- tapply(beren3$value[Feeds], beren3$age[Feeds], var)
+totalFeed <- tapply(beren3$value[Feeds], beren3$age[Feeds], sum)
+numFeeds <- tapply(beren3$value[Feeds], beren3$age[Feeds], length)
+cor(beren3$value[Feeds], beren3$age[Feeds])
+cor.test(beren3$value[Feeds], beren3$age[Feeds])
+berenCor <- cor.test(beren3$value[Feeds], beren3$age[Feeds])
+summary(berenCor)
+berenANOVA <- aov(beren3$value)[Feeds] ~ beren3$caregiver[Feeds]
+boxplot( beren3$value[Feeds] ~ beren3$caregiver[Feeds], xlab= "who gave the bottle", ylab = "amount of milk consumed (oz") )
+par(las=1, mar=c(5,5,1,1), mgp=c(2, 0.5, 0), tck=-0.01)
+?par
+plot(as.numeric(names(totalFeed)), totalFeed, type="b", pch=16, xlab="age in days", ylab="ounces of milk")
+abline(h=mean(totalFeed), lty=2, col='red')
+pdf('r02b-totalMilkByDay.pdf'', height = 4, width = 4)
+()
+pdf("r02b-totalMilkByDay.pdf", height = 4, width = 4)
+par(las=1, mar=c(5,5,1,1), mgp=c(2, 0.5, 0), tck=-0.01)
+plot(as.numeric(names(totalFeed)), totalFeed, type="b", pch=16, xlab="age in days", ylab="ounces of milk")
+abline(h=mean(totalFeed), lty=2, col='red')
+dev.off()
+#Question 2- This graph has multiple axis but only two are labeled for the whole spreadsheet; it doesn't give the units for the naps. 
+source("http://jonsmitchell.com/code/plotFxn02b.R")
+pdf("r02b-cumulativeMilkByTime.pdf", height = 4, width = 4)
+hour <- which(beren3$event == "nap"
+nap <- which(beren3$event == "nap")
+beren4 <- beren3[nap,]
+source("http://jonsmitchell.com/code/plotFxn02b.R")
+beren4
+unique(beren3$event)
+#Hyp= Berens heads circumference in cm increases as his age increases by days. 
+circumtraitHead <- which(beren3$event == "circum_trait_head")
+circumtraitHead
+avgHeadcircum <- which(beren3$value[circumtraitHead])
+traitHeadcircum <- which(beren3$event == "trait_head_circum")
+traitHeadcircum
+avgHeadcircum <- mean(beren3$event[traitHeadcircum])
+avgHeadcircum <- mean(beren3$value[traitHeadcircum])
+avgHeadcircum
+cor.test(beren3$value[traitHeadcircum], beren3$age[traitHeadcircum])
+?cor.test
+t.test(beren3$value[traitHeadcircum], beren3$age[traitHeadcircum])
+#p-value = 0.2812; there is no significant difference in the circumference of Berens's head in cm as his age increases (in days).
+nap <- which(beren3$event == "nap")
+beren4 <- beren3[nap,]
+beren4
+Start <- beren4$start_hour + beren4$start_minute /60
+End <- beren4$end_hour + beren4$end_minute /60
+duration <- End-Start
+graph <- plot(beren4$age,duration)
+cor.test(beren4$age,duration)
+# The duration of Beren's nap time decreases as his age increases; negative correlation.

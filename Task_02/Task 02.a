@@ -23,4 +23,4 @@ dateID <- sapply(dayID, as.Date, format = "%Y-%m-%d", origin = "2019-04-18")
 Data$age <- dateID - dateID[which(Data$event == 'birth')]
 beren2 <- Data
 beren3 <- beren2[order(beren2$age),]
-write.csv(beren3, 'beren_new.csv', quote=F, row.names=FALSE)
+write.csv(beren3, 'beren_new.csv', quote=F, row.names=FALSE)]='
