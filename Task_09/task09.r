@@ -18,7 +18,7 @@ Ancestors
 ?fastAnc
 fastAnc
 #Question 3- {} CI95 has a 95% confidence interval. 
-#Question 4- 
+#Question 4- MLE of the root node
 par(mar=c(0.1,0.1,0.1,0.1))
 plot(tree, type="fan", lwd=2, show.tip.label=F)
 tiplabels(pch=16, cex=0.25*svl[tree$tip.label])

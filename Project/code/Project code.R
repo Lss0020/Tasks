@@ -1,6 +1,7 @@
 setwd('C:\\Users\\sians\\OneDrive\\Desktop\\Evolution\\Tasks\\Project\\data')
 toadcalldata <- read.csv('ss2.csv')
-
+?toadcalldata
+toadcalldata
 head(toadcalldata)
 
 
@@ -35,6 +36,7 @@ abline(lm(toadcalldata[isSB,3]~toadcalldata[isSB,4]), col='orange', lwd=2, lty=2
 points(toadcalldata[isSM,4], toadcalldata[isSM,3], pch=15, col='blue')
 abline(lm(toadcalldata[isSM,3]~toadcalldata[isSM,4]), col='blue', lwd=2, lty=2)
 legend("topleft", legend=c("SB","SM"), text.col=c("orange","blue"), bty="n")
+
 
 
 
